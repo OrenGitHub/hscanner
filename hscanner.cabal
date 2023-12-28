@@ -14,7 +14,13 @@ executable parser
 
     import: warnings
     main-is: Main.hs
-    
+
+    other-modules:
+        Lexer,
+        Parser,
+        Tokens,
+        Location,    
+
     build-tool-depends:
         alex:alex,
         happy:happy
