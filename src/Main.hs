@@ -14,5 +14,5 @@ main = do {
     program' <- fmap (parseProgram input) (readFile input);
     case program' of
         Left errorMsg -> Data.Text.Lazy.IO.writeFile output (pack errorMsg)
-        Right program -> Data.Text.Lazy.IO.writeFile output (encodeToLazyText ast)
+        Right program -> Data.Text.Lazy.IO.writeFile output (encodeToLazyText program)
 }

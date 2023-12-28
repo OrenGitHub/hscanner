@@ -5,7 +5,7 @@ module Parser( parseProgram ) where
 
 import Lexer
 import Data.Either
-import qualified Token
+import qualified Tokens
 
 }
 
@@ -40,11 +40,13 @@ INT { AlexTokenTag (AlexRawToken_INT  i) _ }
 -- *************************
 %%
 
-program: ids { IDs { filename = "someFile.txt", content = $1 } }
+program: tokens { Tokens.Tokens { Tokens.filename = "someFile.txt", Tokens.content = $1 } }
 
-tokenID: ID { Token.Named (tokStrValue $1) (location $1) }
+token: ID  { Tokens.TokID   (lexerIDVal  $1) (lexerLoc $1) }
+     | INT { Tokens.TokInt  (lexerIntVal $1) (lexerLoc $1) }
+     | '+' { Tokens.TokPlus                  (lexerLoc $1) }
 
-ids: tokenID { [MyLovelyID] } | tokenID '+' ids { $1:$3 }
+tokens: token { [$1] } | token tokens { $1:$2 }
 
 {
 
@@ -69,6 +71,6 @@ parseError t = alexError' (tokenLoc t)
 -- * parseProgram *
 -- *              *
 -- ****************
-parseProgram :: FilePath -> String -> Either String Ast.Root
+parseProgram :: FilePath -> String -> Either String Tokens.Tokens
 parseProgram = runAlex' parse
 }

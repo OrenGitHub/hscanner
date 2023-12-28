@@ -1,5 +1,14 @@
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DeriveAnyClass #-}
+{-# LANGUAGE OverloadedStrings #-}
+
 module Location
+
 where
+
+import Data.Aeson
+import GHC.Generics
+
 data Location
    = Location
      {
@@ -8,4 +17,4 @@ data Location
          colStart  :: Int,
          colEnd    :: Int
      }
-     deriving ( Show )
+     deriving ( Show, Generic, ToJSON )

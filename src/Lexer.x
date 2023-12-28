@@ -5,10 +5,10 @@
 module Lexer
 (
     runAlex'     ,
-    location     ,
+    lexerLoc     ,
     alexError'   ,
-    tokIntValue  ,
-    tokStrValue  ,
+    lexerIntVal  ,
+    lexerIDVal   ,
     alexMonadScan,
 
     Alex        (..),
@@ -60,7 +60,7 @@ import Location
 -- * comment *
 -- *         *
 -- ***********
-@COMMENT_PYTHON = "#".*
+@COMMENT = "#".*
 
 -- ***************
 -- *             *
@@ -185,24 +185,24 @@ alexError' location = alexError $ "ERROR[" ++ show location ++ "]\n"
 -- * location *
 -- *          *
 -- ************
-location :: AlexTokenTag -> Location
-location = tokenLoc
+lexerLoc :: AlexTokenTag -> Location
+lexerLoc = tokenLoc
 
 -- ***************
 -- *             *
 -- * tokIntValue *
 -- *             *
 -- ***************
-tokIntValue :: AlexTokenTag -> Int
-tokIntValue t = case (tokenRaw t) of { AlexRawToken_INT i -> i; _ -> 0; }
+lexerIntVal :: AlexTokenTag -> Int
+lexerIntVal t = case (tokenRaw t) of { AlexRawToken_INT i -> i; _ -> 0; }
 
 -- ***************
 -- *             *
 -- * tokStrValue *
 -- *             *
 -- ***************
-tokStrValue :: AlexTokenTag -> String
-tokStrValue t = case (tokenRaw t) of { AlexRawToken_ID s -> s; _ -> ""; }
+lexerIDVal :: AlexTokenTag -> String
+lexerIDVal t = case (tokenRaw t) of { AlexRawToken_ID s -> s; _ -> ""; }
 
 -- ************
 -- *          *
